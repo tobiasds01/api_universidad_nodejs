@@ -18,7 +18,8 @@ module.exports = {
         type: Sequelize.DATE
       },
       id_carrera: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'carreras', key: 'id' }
       },
       createdAt: {
         allowNull: false,

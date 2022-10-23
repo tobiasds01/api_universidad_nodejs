@@ -1,4 +1,7 @@
 'use strict';
+
+const carrera = require("./carrera");
+
 module.exports = (sequelize, DataTypes) => {
   const alumno = sequelize.define('alumno', {
     nombre: DataTypes.STRING,
@@ -7,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     id_carrera: DataTypes.INTEGER
   }, {});
   alumno.associate = function(models) {
-    // associations can be defined here
-  };
+    alumno.belongsTo( models.carrera, {
+      foreignKey: 'id',
+      target_key: 'id_carrera'
+    } );
+  }; 
   return alumno;
 };

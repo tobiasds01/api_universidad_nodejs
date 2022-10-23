@@ -18,7 +18,8 @@ module.exports = {
         type: Sequelize.DATE
       },
       id_materia: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'materia', key: 'id'}
       },
       createdAt: {
         allowNull: false,
