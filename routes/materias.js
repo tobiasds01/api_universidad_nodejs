@@ -3,14 +3,17 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", (req, res,next) => {
-
+  let paginaActual = req.query.paginaActual;
+  let cantidadAVer = req.query.cantidadAVer;
+  
   models.materia.findAll({attributes: ["id","nombre","id_carrera"],
-      
-      /////////se agrega la asociacion 
-      include:[{as:'Carrera-Relacionada', model:models.carrera, attributes: ["id","nombre"]}]
-      ////////////////////////////////
+    offset: paginaActual*cantidadAVer,
+    limit: cantidadAVer*1,
+    /////////se agrega la asociacion 
+    include:[{as:'Carrera-Relacionada', model:models.carrera, attributes: ["id","nombre"]}]
+    ////////////////////////////////
 
-    }).then(materias => res.send(materias)).catch(error => { return next(error)});
+  }).then(materias => res.send(materias)).catch(error => { return next(error)});
 });
 
 
