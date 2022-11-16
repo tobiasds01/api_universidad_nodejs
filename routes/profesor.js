@@ -55,7 +55,7 @@ router.put("/:id", (req, res) => {
         dni: req.body.dni,
         fecha_de_nacimiento: req.body.fecha_de_nacimiento,
         id_materia: req.body.id_materia
-      }, { fields: ["nombre"] })
+      }, { fields: ["nombre","dni","fecha_de_nacimiento","id_materia"] })
       .then(() => res.sendStatus(200))
       .catch(error => {
         if (error == "SequelizeUniqueConstraintError: Validation error") {

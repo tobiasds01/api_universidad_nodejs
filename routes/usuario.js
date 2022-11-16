@@ -4,8 +4,7 @@ const models = require('./../models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const User = models.usuario;
-dotenv.config();
+dotenv.config()
 
 router.get("/", (req, res,next) => {
   models.usuario.findAll({attributes: ["id","nombre","email","contraseña","id_alumno"],
@@ -24,7 +23,15 @@ router.post("/", (req, res) => {
         id_alumno: req.body.id_alumno
     })
     .then(usuario => {
-        res.status(201).send({ id: usuario.id })
+        let token = jwt.sign({ usuario: usuario }, "secret", {
+          expiresIn: "24h"
+        })
+
+        res.status(201).send({ 
+          id: usuario.id,
+          usuario: usuario,
+          token: token
+        })
     })
     .catch(error => {
       if (error == "SequelizeUniqueConstraintError: Validation error") {
@@ -35,7 +42,7 @@ router.post("/", (req, res) => {
         res.sendStatus(500)
       }
     });
-})
+});
 
 const findUsuario = (id, { onSuccess, onNotFound, onError }) => {
   models.usuario
@@ -93,38 +100,22 @@ router.delete("/:id", (req, res) => {
   });
 });
 
-router.post('/login',async(req,res,next)=>{
- const user = await User.findOne({ where : {email : req.body.email }});
- if(user){
-    const password_valid = await bcrypt.compare(req.body.password,user.password);
-    if(password_valid){
-        token = jwt.sign({ "id": user.id, "email": user.email,"nombre": user.nombre },process.env.SECRET);
-        res.status(200).json({ token : token });
-    } else {
-      res.status(400).json({ error : "Password Incorrect" });
-    }
-  } else {
-    res.status(404).json({ error : "User does not exist" });
-  }
-});
+router.post('/login', (req, res) => {
+  let { email, contraseña } = req.body;
 
-router.get('/me',
- async(req,res,next)=>{
-  try {
-    let token = req.headers['authorization'].split(" ")[1];
-    let decoded = jwt.verify(token,process.env.SECRET);
-    req.user = decoded;
-    next();
-  } catch(err){
-    res.status(401).json({"msg":"Couldnt Authenticate"});
-  }
-  },
-  async(req,res,next)=>{
-    let user = await User.findOne({where:{id : req.user.id},attributes:{exclude:["password"]}});
-    if(user === null){
-      res.status(404).json({'msg':"User not found"});
+  models.usuario.findOne({
+    where: { email: email }
+  }).then(usuario => {
+    if(!usuario) {
+      res.status(404).json({ msg: "Email incorrecto" })
+    } else {
+      if(bcrypt.compareSync(contraseña, usuario.contraseña)) {
+        res.send("Verificación exitosa");
+      } else {
+        res.status(401).json({ msg: "Contraseña incorrecta" })
+      }
     }
-    res.status(200).json(user);
- }); 
+  })
+})
 
 module.exports = router;
