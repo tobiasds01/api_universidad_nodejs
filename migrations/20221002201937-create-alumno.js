@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       dni: {
+        unique: true,
         type: Sequelize.INTEGER
       },
       fecha_de_nacimiento: {

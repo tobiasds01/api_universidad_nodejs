@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       dni: {
+        unique: true,
         type: Sequelize.INTEGER
       },
       fecha_de_nacimiento: {
@@ -19,6 +20,7 @@ module.exports = {
       },
       id_materia: {
         type: Sequelize.INTEGER,
+        unique: true,
         references: { model: 'materia', key: 'id'}
       },
       createdAt: {

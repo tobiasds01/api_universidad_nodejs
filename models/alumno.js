@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id_carrera',
       targetKey: 'id'
     } );
+    alumno.hasOne( models.usuario, {
+      as: 'Alumno-Usuario'
+    } );
   }; 
   return alumno;
 };

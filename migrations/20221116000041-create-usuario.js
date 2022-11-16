@@ -18,10 +18,12 @@ module.exports = {
       },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       id_alumno: {
         allowNull: false,
+        unique: true,
         type: Sequelize.INTEGER,
         references: { model: 'alumnos', key: 'id' }
       },
