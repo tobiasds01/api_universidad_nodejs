@@ -11,7 +11,7 @@ dotenv.config();
 
 let PORT = process.env.PORT || 5000;
 
-app.post("/user/generateToken", (req, res) => {
+app.post("/generateToken", (req, res) => {
 	// Validate User Here
 	// Then generate JWT Token
 
@@ -26,7 +26,7 @@ app.post("/user/generateToken", (req, res) => {
 	res.send(token);
 });
 
-app.get("/user/validateToken", (req, res) => {
+app.get("/validateToken", (req, res) => {
 	// Tokens are generally passed in the header of the request
 	// Due to security reasons.
 

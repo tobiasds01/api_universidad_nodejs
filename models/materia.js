@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   materia.associate = function(models) {
     materia.belongsTo( models.carrera, {
-      foreignKey: 'id',
-      target_key: 'id_carrera'
+      as: 'Carrera-Materia',
+      foreignKey: 'id_carrera',
+      targetKey: 'id'
     })
   };
   return materia;

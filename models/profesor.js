@@ -8,8 +8,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   profesor.associate = function(models) {
     profesor.belongsTo( models.materia, {
+      as: 'Materia-Profesor',
       foreignKey: 'id_materia',
-      key: 'id'
+      targetKey: 'id'
     })
   };
   return profesor;
