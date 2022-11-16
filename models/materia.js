@@ -10,9 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id_carrera',
       targetKey: 'id'
     });
-    materia.hasOne(models.profesor, {
-      as: 'Materia-Profesor'
-    });
   };
   return materia;
 };
