@@ -3,12 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+dotenv.config();
+
 var carrerasRouter = require('./routes/carreras');
 var materiasRouter = require('./routes/materias');
 var alumnosRouter = require('./routes/alumno');
 var profesoresRouter = require('./routes/profesor');
 var usuariosRouter = require('./routes/usuario');
-var serverRouter = require('./routes/server');
 
 var app = express();
 
@@ -28,7 +31,7 @@ app.use('/mat', materiasRouter);
 app.use('/alu', alumnosRouter);
 app.use('/pro', profesoresRouter);
 app.use('/user', usuariosRouter);
-app.use('/ser', serverRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
