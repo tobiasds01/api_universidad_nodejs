@@ -18,14 +18,10 @@ router.post("/signUp", (req, res) => {
         id_alumno: req.body.id_alumno
     })
     .then(usuario => {
-        let token = jwt.sign({ usuario: usuario, email: email }, "secret", {
-          expiresIn: "24h"
-        })
 
         res.status(201).send({ 
           id: usuario.id,
           usuario: usuario,
-          token: token
         })
     })
     .catch(error => {
